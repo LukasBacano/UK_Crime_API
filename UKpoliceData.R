@@ -1,7 +1,9 @@
-library(httr)
-library(jsonlite)
-library(dplyr)
-library(ggplot2)
+library(readxl) #læs excel
+library(httr) #snak til api
+library(jsonlite) #læs content
+library(dplyr) #nemmere wrangling
+library(ggplot2) #plots
+
 
 #politi-kræse
 # https://data.police.uk/api/forces
@@ -71,6 +73,19 @@ ggplot(data = stopANDsearchEthnic, aes(x = reorder(officer_defined_ethnicity, -p
        x = "Etnicitet",
        y = "Procent") +
   theme_minimal()
+
+
+
+
+#Kilde til hvor stor en % hver etnicitet udgør: 
+#https://www.ons.gov.uk/peoplepopulationandcommunity/culturalidentity/ethnicity/bulletins/ethnicgroupenglandandwales/census2021
+UKeth <- as.data.frame(read_excel("Downloads/uketh.xlsx"))
+colnames(UKeth) <- UKeth[4,] #lav kolonnenavne
+UKeth <- UKeth[4:nrow(UKeth),] #fjern tomme rows
+rownames(UKeth) <- UKeth[,2]
+# ^ Her kan jeg udregne de rigtige forhold af etniciteter og se, om politiet er mere tilbøjelige til at visitere specifikke etniciteter.
+
+
 
 #Hvilke "locations" er man mere tilbøgelig til at blive kontrolleret af politiet?
 MostStopAndSearch <- bboxCrimeRes %>% group_by(location.street.name) %>% 
