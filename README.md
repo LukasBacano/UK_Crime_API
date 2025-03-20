@@ -72,6 +72,8 @@ Tidstrends: Undersøg, om der er ændringer over tid i, hvem der bliver stoppet.
 
 Sammenligning med andre områder: Brug flere forces i API'et for at sammenligne praksis mellem politidistrikter.
 
+sammenlign med % af befolknings etnicitet
+
 🔗 Kilder & Ressourcer
 
 Data.police.uk API
