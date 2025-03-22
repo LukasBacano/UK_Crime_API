@@ -1,4 +1,12 @@
-Analyse af Stop & Search med Data.police.uk API
+# 📡 Skjult agenda i den engelske profilering af individer – Kort beskrivelse
+
+Jeg har gennem [dette API](https://data.police.uk/docs/), lavet en analyse af det engelske politis etnicitetsfordeling, ved deres praksis af visitationer i London.
+Jeg ville undersøge om der er gruppe som specielt er mere tilbøjelige til at blive visiteret end andre grupper.
+Api'en er til fri benyttelse, og min data er baseret på data fra juli måned, 2024, men jeg vil udvide den senere med hele året 24 - Scriptet er vedlagt som et open-source-projekt alle kan bidrage til. 
+
+
+
+'Analyse af Stop & Search med Data.police.uk API
 
 📌 Introduktion
 
