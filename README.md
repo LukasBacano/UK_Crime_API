@@ -1,92 +1,127 @@
 # 🔍👮‍♂️ Skjult agenda i den engelske profilering af individer
 
-Jeg har gennem [dette API](https://data.police.uk/docs/), lavet en analyse af det engelske politis etnicitetsfordeling, ved deres praksis af visitationer i London.
-Jeg ville undersøge om der er gruppe som specielt er mere tilbøjelige til at blive visiteret end andre grupper.
-Api'en er til fri benyttelse ud udarbejdet af Storbritanien, og min data er baseret på "stop and search" logs fra juli måned, 2024, men jeg vil udvide den senere med hele året 24 - Scriptet er vedlagt som et open-source-projekt alle kan bidrage til. 
+Jeg har gennem [dette API](https://data.police.uk/docs/) lavet en analyse af det engelske politis etnicitetsfordeling i deres praksis med visitationer i London.  
+Jeg ønskede at undersøge, om nogle grupper i særlig grad er mere tilbøjelige til at blive visiteret end andre.
 
-📌 Introduktion
+API’et er offentligt tilgængeligt og udarbejdet af Storbritannien.  
+Min analyse er baseret på “stop and search”-logs fra juli 2024, men jeg planlægger at udvide analysen til at dække hele året.  
+Scriptet er open source, og alle er velkomne til at bidrage.
 
-Dette projekt henter og analyserer data fra data.police.uk API'en med fokus på stop and search-hændelser. Formålet er at undersøge, om der er forskelle i, hvilke etniske grupper der oftere bliver kontrolleret af politiet i forskellige områder.
+---
 
---- 
+## 📌 Introduktion
+
+Dette projekt henter og analyserer data fra [data.police.uk](https://data.police.uk/) med fokus på “stop and search”-hændelser.  
+Formålet er at undersøge, om der er forskelle i, hvilke etniske grupper der oftere bliver kontrolleret af politiet i London.
+
+---
 
 ## 🛠 Teknologier
 
-Projektet er udviklet i R og anvender følgende pakker:
+Projektet er udviklet i **R** og benytter følgende pakker:
 
-📦 httr → Håndtering af HTTP-anmodninger
-
-📦 jsonlite → Konvertering af JSON-data
-
-📦 dplyr → Datamanipulation
-
-📦 ggplot2 → Datavisualisering
-
-📦 Leaflet → Verdenskort
+| Pakke       | Formål                        |
+|-------------|-------------------------------|
+| 📦 `httr`      | Håndtering af HTTP-anmodninger |
+| 📦 `jsonlite`  | Konvertering af JSON-data     |
+| 📦 `dplyr`     | Datamanipulation              |
+| 📦 `ggplot2`   | Datavisualisering             |
+| 📦 `leaflet`   | Interaktive kort               |
 
 ---
 
 ## 🌍 Analyse
 
-Jeg har meget simpelt valgt at tælle op på mængden af visitationer ud fra hver "officer_defined_ethnicity" (fortæller hvilken etnicitet politibetjenten selv har klassificeret og tildelt individet)
+Jeg har simpelt talt, hvor mange visitationer der er foretaget for hver `officer_defined_ethnicity`.  
+Det vil sige den etnicitet, som politibetjenten selv har klassificeret og tildelt individet.
 
+---
 
-### 📊
+### 🗺 Kort over visitationer
+
 ![MAP](IMG/map.png)
-Det første jeg gjorde var at plotte hvert at de i alt 9278, datapunkter via deres Lat/Long fra mit APIkald. For at få et bedre indblik i fordelingen, har jeg farvekoordineret mine cirkler efter etnicitet.
 
-Ud fra det ovenstående kort er det svært at se om visse områder hvor der forekommer flere "stop and searches" end andre - for at finde ud af præcist dette, har jeg lavet et heatmap.
+Det første jeg gjorde, var at plotte alle 9.278 datapunkter via deres lat/long fra API-kaldet.  
+For at få bedre overblik har jeg farvekoordineret punkterne efter etnicitet.
+
+Men det er svært at vurdere tætheden af visitationer alene ud fra punkterne, så jeg lavede et heatmap.
+
+---
+
+### 🔥 Heatmap
 
 ![Heatmap](IMG/heatmap.png)
 
-En spændende opdagelse var at hotspotsne var tæt på togstationer så jeg har også plottet det samme heatmap, men med et tog-infrastruktur layer for at se om min teori passede.
+En interessant opdagelse var, at hotspots lå tæt på togstationer.  
+Derfor lavede jeg endnu et heatmap med **tog-infrastruktur som lag**:
 
-![Heatmaptog](IMG/heatmaprails.png)
+![Heatmap med tog](IMG/heatmaprails.png)
 
-### 📊
 
-Det er vigtigt at påpege at hvis vi læger alle vores procenter sammen giver det ikke 100%, da jeg har fjernet mine NA-værdier. (retter dette senere)
 
-### 📊
+---
+
+### 📊 Fordeling af visiterede
+
+> 💡 *Bemærk: Procenter summerer ikke til 100%, da observationer med `NA` er udeladt. Dette vil blive rettet.*
 ![Fordeling](IMG/ProcPlot.jpeg)
 
+Ved første øjekast ser fordelingen nogenlunde jævn ud,  
+men hvis man sammenligner med [officielle befolkningstal](https://www.ethnicity-facts-figures.service.gov.uk/uk-population-by-ethnicity/national-and-regional-populations/regional-ethnic-diversity/latest/),  
+så viser det et andet billede.
 
-ved første øjekast kan det se nogenlunde ligligt fordelt ud, men hvis man kigger på [dette link](https://www.ethnicity-facts-figures.service.gov.uk/uk-population-by-ethnicity/national-and-regional-populations/regional-ethnic-diversity/latest/), fra "service.gov.uk" giver vores procenter pludselig en helt anden mening.
-### 📊 service.gov.uk
+---
+
+### 📊 Befolkningssammensætning
+
 ![service.gov.uk](IMG/Ethnicity.png)
 
+---
 
 ### 📌 Tabel
+
 ![Tabel](IMG/proc.png)
 
-Vi kan ud fra vores tal, se at specielt, personer som er klassificeret "black" kun udgør 13.5% af befolkningen i london, men udgør 37.4% af alle "stop and searches", hvilket man jo må indrømme er en ret voldsom fordeling.
+Eksempel: Personer klassificeret som “Black” udgør kun **13.5%** af befolkningen i London,  
+men står for hele **37.4%** af alle "stop and searches".  
+Det er en bemærkelsesværdig skævhed i fordelingen.
 
-### Arrests
+---
+
+### 👤➡️🚔 Arrestationer
 
 ![Arrests](IMG/arrestratebyETH.png)
 
-Jeg har så undersøgt om der er en forskel på hvilken etnicitet som bliver arresteret mest og igen er "black" meget tæt på white, men vi kan ikke rigtig bruge dette til så meget da det er op til en dommer at kende dem skyldige eller uskyldige.
-
-
+Jeg undersøgte også, om der er forskel på, hvem der oftest bliver arresteret.  
+Her ligger “Black” og “White” relativt tæt.  
+Dog kan vi ikke konkludere skyld eller uskyld ud fra disse tal, da det er op til domstolen og ikke politiet.
 
 
 ---
 
-## 📊 Dataoverblik
+## 🤝 Bidrag
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Her er en tabel over de tre mest aktive flylande i datasættet:
+Alle er velkomne til at bidrage til dette projekt, uanset erfaring.  
+Du kan for eksempel:
 
-| Land            | Antal Fly | Sidst Set       |
-|-----------------|-----------|-----------------|
-| DPRK            | 132       | 2025-03-21 06:00 |
-| Republic of Korea | 98      | 2025-03-21 05:58 |
-| USA             | 21        | 2025-03-21 05:55 |
+- Tilføje andre måneder
+- Bruge GeoJSON til præcise bydele
+- Udvide visualiseringen
+- Lave internationale sammenligninger
 
 ---
 
-## 📁 Struktur
+## 🧠 Konklusion
 
+Projektet viser tydelige forskelle i, hvordan forskellige grupper oplever politiets praksis.  
+Der er behov for yderligere analyser og transparens for at sikre retfærdighed i anvendelsen af stop-and-search.
 
-🔗 Kilder & Ressourcer
+---
 
-Data.police.uk API
+## ⚖️ Disclaimer
+
+Denne analyse er baseret på offentligt tilgængelige data.  
+Etnicitet er defineret af politibetjenten, og dermed ikke nødvendigvis i overensstemmelse med individets selvopfattelse.  
+Data repræsenterer ikke nødvendigvis en domfældelse eller skyld.
+
+---
