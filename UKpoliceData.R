@@ -70,6 +70,18 @@ stopANDsearchEthnic <- bboxCrimeRes %>%
 stopANDsearchEthnic$ethnicity_in_londonPROC <- as.numeric(c("53.8","13.5","20.7","6.3","5.7"))
 #^ dette giver et bedre indblik da vi kan se hvor stor en procentdel af etnicicity's udgør procentdel af "stop and search"
 
+
+Arrest2 <- bboxCrimeRes[bboxCrimeRes$outcome== "Arrest",]
+procafETHArrests <- Arrest2 %>% 
+  group_by(officer_defined_ethnicity) %>% 
+  summarise(
+    Arrests = n(),  # Antal arrestationer for hver etnicitet
+    .groups = "drop"
+  ) %>% 
+  mutate(ArrestRate = round(Arrests / sum(Arrests) * 100,1)) %>% 
+  arrange(desc(ArrestRate))
+
+
 Arrests <- bboxCrimeRes %>%
   group_by(officer_defined_ethnicity) %>%
   summarise(
