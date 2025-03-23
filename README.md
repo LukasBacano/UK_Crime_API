@@ -10,7 +10,7 @@ Dette projekt henter og analyserer data fra data.police.uk API'en med fokus på 
 
 --- 
 
-##🛠 Teknologier
+## 🛠 Teknologier
 
 Projektet er udviklet i R og anvender følgende pakker:
 
@@ -30,14 +30,45 @@ Projektet er udviklet i R og anvender følgende pakker:
 
 Jeg har meget simpelt valgt at tælle op på mængden af visitationer ud fra hver "officer_defined_ethnicity" (fortæller hvilken etnicitet politibetjenten selv har klassificeret og tildelt individet)
 
+
+### 📊
+![MAP](IMG/map.png)
+Det første jeg gjorde var at plotte hvert at de i alt 9278, datapunkter via deres Lat/Long fra mit APIkald. For at få et bedre indblik i fordelingen, har jeg farvekoordineret mine cirkler efter etnicitet.
+
+Ud fra det ovenstående kort er det svært at se om visse områder hvor der forekommer flere "stop and searches" end andre - for at finde ud af præcist dette, har jeg lavet et heatmap.
+
+![Heatmap](IMG/heatmap.png)
+
+En spændende opdagelse var at hotspotsne var tæt på togstationer så jeg har også plottet det samme heatmap, men med et tog-infrastruktur layer for at se om min teori passede.
+
+![Heatmaptog](IMG/heatmaprails.png)
+
+### 📊
+
+Det er vigtigt at påpege at hvis vi læger alle vores procenter sammen giver det ikke 100%, da jeg har fjernet mine NA-værdier. (retter dette senere)
+
 ### 📊
 ![Fordeling](IMG/ProcPlot.jpeg)
 
-### 🌡 Heatmap
-![Heatmap](IMG/heatmap.png)
 
-### 📌 Positioner
-![Alle positioner](IMG/all_positions.png)
+ved første øjekast kan det se nogenlunde ligligt fordelt ud, men hvis man kigger på [dette link](https://www.ethnicity-facts-figures.service.gov.uk/uk-population-by-ethnicity/national-and-regional-populations/regional-ethnic-diversity/latest/), fra "service.gov.uk" giver vores procenter pludselig en helt anden mening.
+### 📊 service.gov.uk
+![service.gov.uk](IMG/Ethnicity.png)
+
+
+### 📌 Tabel
+![Tabel](IMG/proc.png)
+
+Vi kan ud fra vores tal, se at specielt, personer som er klassificeret "black" kun udgør 13.5% af befolkningen i london, men udgør 37.4% af alle "stop and searches", hvilket man jo må indrømme er en ret voldsom fordeling.
+
+### Arrests
+
+![Arrests](IMG/arrestratebyETH.png)
+
+Jeg har så undersøgt om der er en forskel på hvilken etnicitet som bliver arresteret mest og igen er "black" meget tæt på white, men vi kan ikke rigtig bruge dette til så meget da det er op til en dommer at kende dem skyldige eller uskyldige.
+
+
+
 
 ---
 
